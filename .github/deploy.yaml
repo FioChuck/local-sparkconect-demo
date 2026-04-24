@@ -1,0 +1,43 @@
+name: Maven Package and Deploy
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  build:
+    permissions:
+      contents: "read"
+      id-token: "write"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download Repo to Runner
+        uses: actions/checkout@v4
+
+      - name: "Authenticate to Google Cloud"
+        uses: "google-github-actions/auth@v2"
+        with:
+          create_credentials_file: true
+          workload_identity_provider: ${{secrets.IDENTITY_PROVIDER}}
+          service_account: ${{secrets.SA}}
+
+      - name: "Set up Python"
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: "Install dependencies"
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: "Run Pytest"
+        run: pytest
+
+      - name: "Set up Cloud SDK"
+        uses: "google-github-actions/setup-gcloud@v2"
+
+      - name: "Save JARs to GCS using gcloud"
+        run: gcloud storage cp "target/*.jar" "gs://cf-spark-jobs/jars/"

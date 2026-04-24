@@ -1,0 +1,13 @@
+{
+    "python.defaultInterpreterPath": "${userHome}/.pyenv/versions/3.11.10/envs/spark-connect/bin/python",
+    "cSpell.words": [
+        "Dataproc",
+        "Pyenv",
+        "virtualenv"
+    ],
+    "python.testing.pytestArgs": [
+        "."
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true
+}

@@ -1,0 +1,24 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Spark Connect (Local)",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "python": "${userHome}/.pyenv/versions/3.11.10/envs/spark-connect/bin/python",
+            "preLaunchTask": "pip-install",
+            "args": [
+                "--local_connect"
+            ],
+            "env": {
+                "SPARK_CONNECT_MODE_ENABLED": "1",
+                "GOOGLE_APPLICATION_CREDENTIALS": "${workspaceFolder}/sa-keys/cf-data-analytics-65405f164047.json",
+                "GOOGLE_CLOUD_REGION": "us-central1",
+                "GOOGLE_CLOUD_PROJECT": "cf-data-analytics",
+                "DATAPROC_SERVICE_ACCOUNT": "local-dev@cf-data-analytics.iam.gserviceaccount.com"
+            }
+        }
+    ]
+}

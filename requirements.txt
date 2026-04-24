@@ -1,0 +1,4 @@
+debugpy
+dataproc-spark-connect
+pytest
+pandas<2.2.0
