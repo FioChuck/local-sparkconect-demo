@@ -14,7 +14,7 @@ def transform_pageviews(df: DataFrame) -> DataFrame:
        .limit(10000)
     )
 
-def sample_query(spark: SparkSession, gcs_path: str):
+def sample_query(spark: SparkSession):
     bq_table = "bigquery-public-data.wikipedia.pageviews_2024"
 
     raw_df = spark.read.format("bigquery").option("table", bq_table).load()
@@ -22,11 +22,9 @@ def sample_query(spark: SparkSession, gcs_path: str):
     aggregated_df = transform_pageviews(raw_df)
     aggregated_df.show()
 
-    aggregated_df.write.format("parquet").mode("overwrite").partitionBy("month").save(gcs_path)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Demo PySpark Job")
-    parser.add_argument("--gcs_path", required=True, help="Destination GCS path for output")
     
     parser.add_argument(
         "--local_connect", 
@@ -56,7 +54,7 @@ if __name__ == "__main__":
         spark = SparkSession.builder.appName("Wikipedia_Pageviews_Job").getOrCreate()
 
     try:
-        sample_query(spark, args.gcs_path)
+        sample_query(spark)
     finally:
 
         print("test")
