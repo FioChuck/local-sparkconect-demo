@@ -7,6 +7,9 @@ on:
 
 jobs:
   Test:
+    permissions:
+      contents: "read"
+      id-token: "write"
     runs-on: ubuntu-latest
 
     steps:
@@ -36,6 +39,9 @@ jobs:
 
   Deploy:
     needs: Test
+    permissions:
+      contents: "read"
+      id-token: "write"
     runs-on: ubuntu-latest
 
     steps:

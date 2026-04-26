@@ -24,10 +24,7 @@ def sample_query(spark: SparkSession) -> DataFrame:
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Demo PySpark Job")
 
-    parser.add_argument(
-        "--local_connect",
-        action="store_true",
-    )
+    parser.add_argument("--local_connect", action="store_true")
 
     args = parser.parse_args()
 
