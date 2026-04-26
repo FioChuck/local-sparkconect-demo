@@ -6,7 +6,7 @@ on:
       - main
 
 env:
-  GLOBAL_VAR: ${{secrets.SA}}
+  UNIT_TEST_SERVICE_ACCOUNT: ${{secrets.SA}}
 
 jobs:
   Test:

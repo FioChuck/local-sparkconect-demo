@@ -21,12 +21,16 @@ def load_json_data(filename):
     return data
 
 
+service_account_email = os.environ.get("UNIT_TEST_SERVICE_ACCOUNT")
+
+
 @pytest.fixture(scope="session")
 def spark_fixture():
     os.environ["PYARROW_IGNORE_TIMEZONE"] = "1"
     spark = (
         DataprocSparkSession.builder.projectId("cf-data-analytics")
         .location("us-central1")
+        .serviceAccount(service_account_email)
         .getOrCreate()
     )
 
