@@ -1,4 +1,4 @@
-name: Pyspark test and deploy
+name: Pyspark Test and Deploy
 
 on:
   push:
@@ -6,10 +6,7 @@ on:
       - main
 
 jobs:
-  build:
-    permissions:
-      contents: "read"
-      id-token: "write"
+  Test:
     runs-on: ubuntu-latest
 
     steps:
@@ -26,7 +23,7 @@ jobs:
       - name: "Set up Python"
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: '3.12'
           cache: 'pip'
 
       - name: "Install dependencies"
@@ -35,10 +32,25 @@ jobs:
           pip install -r requirements.txt
 
       - name: "Run Pytest"
-        run: pytest
+        run: pytest -v
+
+  Deploy:
+    needs: Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download Repo to Runner
+        uses: actions/checkout@v4
+
+      - name: "Authenticate to Google Cloud"
+        uses: "google-github-actions/auth@v2"
+        with:
+          create_credentials_file: true
+          workload_identity_provider: ${{secrets.IDENTITY_PROVIDER}}
+          service_account: ${{secrets.SA}}
 
       - name: "Set up Cloud SDK"
         uses: "google-github-actions/setup-gcloud@v2"
 
       - name: "Save JARs to GCS using gcloud"
-        run: gcloud storage cp "target/*.jar" "gs://cf-spark-jobs/jars/"
+        run: gcloud storage cp "src/*.py" "gs://cf-spark-jobs/"
