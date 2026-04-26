@@ -22,6 +22,8 @@ def load_json_data(filename):
 
 
 service_account_email = os.environ.get("UNIT_TEST_SERVICE_ACCOUNT")
+if not service_account_email:
+    raise ValueError("UNIT_TEST_SERVICE_ACCOUNT environment variable is missing or empty. Please ensure your GitHub secrets are set.")
 
 
 @pytest.fixture(scope="session")
