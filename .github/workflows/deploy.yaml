@@ -5,6 +5,9 @@ on:
     branches:
       - main
 
+env:
+  GLOBAL_VAR: ${{secrets.SA}}
+
 jobs:
   Test:
     permissions:
